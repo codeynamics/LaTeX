@@ -1,0 +1,208 @@
+\documentclass{article}
+\usepackage{graphicx, amsmath, setspace, geometry, cancel, tcolorbox} % Required for inserting images
+\geometry{
+a4paper,
+top=0.5in,
+bottom=0.5in,
+outer=0.5in,
+inner=0.5in
+}
+
+\title{Navier-Stokes Equation Derivation in LaTeX}
+\author{\Large Harish Jayaraj P}
+\date{April 2023}
+
+\begin{document}
+%\onehalfspacing
+\doublespacing
+\maketitle
+
+\section*{Continuity Equation}
+
+$$\left (\frac{dm}{dt}\right)_{syst}=0$$
+Using \textbf{Reynold's Transport Theorem [RTT]}:\\
+Taking Intensive Property, $mass=1$ 
+
+$$ \int_{cv} \frac{\partial{\rho}}{\partial{t}}d\mathcal{V}+\int_{cv} \rho(V\cdot n)dA =0 $$
+
+$$ \implies \int_{cv} \frac{\partial{\rho}}{\partial{t}}d\mathcal{V}+\sum_i(\rho_iA_iV_i)_{out}-\sum_i(\rho_iA_iV_i)_{in} =0 $$
+For very small elemental control volume
+$$\int_{cv}\frac{\partial{\rho}}{\partial{t}}d\mathcal{V}\approx\frac{\partial{\rho}}{\partial{t}}dxdydz$$
+\begin{center}
+\begin{tabular}{c c c}
+\hline
+     \textbf{Face} & \textbf{Inlet Mass Flow} & \textbf{Outlet Mass Flow} \\ \hline
+     $x$ & $\rho_udydz$ &  $\left [\rho_u+\frac{\partial{}}{\partial{x}}{(\rho_u)dx}\right]dydz$ \\ 
+     $y$ & $\rho_vdxdz$ &  $\left [\rho_v+\frac{\partial{}}{\partial{y}}{(\rho_v)dx}\right]dxdz$ \\ 
+     $z$ & $\rho_wdxdy$ &  $\left [\rho_w+\frac{\partial{}}{\partial{z}}{(\rho_w)dx}\right]dxdy$ \\ \hline
+\end{tabular}
+\end{center}
+By substituting the Inlet mass flow and Outlet mass flow in \textbf{RTT} we get
+\begin{equation*} 
+\frac{\partial{\rho}}{\partial{t}}dxdydz+\frac{\partial}{\partial{x}}(\rho_u)dxdydz+\frac{\partial}{\partial{y}}(\rho_v)dxdydz+\frac{\partial}{\partial{z}}(\rho_w)dxdydz = 0 
+\end{equation*}
+Dividing the whole equation by $dxdydz$ we get
+\begin{equation*}
+\frac{\partial{\rho}}{\partial{t}}+\frac{\partial}{\partial{x}}\rho_u+\frac{\partial}{\partial{y}}\rho_v+\frac{\partial}{\partial{z}}\rho_w = 0
+\end{equation*}
+Using Laplasian operator $$\nabla=\frac{\partial}{\partial{x}}+\frac{\partial}{\partial{y}}+\frac{\partial}{\partial{z}}$$ 
+The equation can be written as:
+$$\frac{\partial{\rho}}{\partial{t}}+\nabla\cdot(\rho V)=0$$ (or)
+$$\frac{\partial{\rho}}{\partial{t}}+\nabla\cdot\Vec{V}=0$$
+This is known as the \textbf{Unsteady Term} of the equation.\\
+For Incompressible flow, regardless of Steady or Unsteady flow:
+$$\frac{\partial{\rho}}{\partial{t}}\approx0 \implies \nabla\cdot V=0$$
+%\newpage
+\section*{Momentum Equation}
+By Newton's $3^{rd}$ law 
+\begin{align*}
+    F &= ma \\
+    &= m \frac{dV}{dt} =\frac{d}{dt}(mV)
+\end{align*}
+Intensive property $B=mV \implies \beta=\frac{dB}{dm}=V$ (Velocity).
+\begin{equation}{\label{momen}}
+    \frac{d}{dt}(mV)_{syst}=\sum F = \frac{d}{dt}\left(\int_{cv}V\rho d\mathcal{V}\right)+\int_{cs}V\rho(V\cdot n)dA
+\end{equation}
+Mass flow rate $\dot{M}$ at each face of the control volume can be written as:
+\begin{align*}
+    \dot{M}_{cs} &= \int_{sec}V\rho(V\cdot n)dA \\
+    \dot{M}_{seci} &= V_i(\rho_iV_{ni}A_i)=\dot{m}_iV_i
+\end{align*}
+Substituting $\dot{M}_{cs}\ \&\ \dot{M}_{seci}$ in \ref{momen} we get:
+\begin{equation}{\label{force}}
+    \implies \sum F = \frac{d}{dt}\left(\int_{cv} V\rho d \mathcal{V}\right)+\sum(\dot{m}_iV_i)_{out}-\sum(\dot{m}_iV_{i})_{in}
+\end{equation}
+For a small elemental control volume
+$$\frac{\partial}{\partial{t}}(\int_{cv}V\rho d\mathcal{V}\approx\frac{\partial}{\partial{t}}(\rho V)dxdydz$$
+\begin{center}
+\begin{tabular}{c c c} \hline
+    \textbf{Faces} & \textbf{Inlet Momentum Flux} & \textbf{Outlet Momentum Flux} \\ \hline 
+     x & $\rho uVdydz$ & $\left[\rho uV+ \frac{\partial}{\partial{x}}(\rho uV)dx \right]dydz$ \\
+     y & $\rho vVdxdz$ & $\left[\rho vV+ \frac{\partial}{\partial{y}}(\rho vV)dx \right]dxdz$ \\
+     z & $\rho wVdxdy$ & $\left[\rho wV+ \frac{\partial}{\partial{z}}(\rho wV)dx \right]dxdy$ \\ \hline
+\end{tabular}
+\end{center}
+By substituting the Inlet momentum flux and Outlet momentum flux in \ref{force} we get:
+\begin{equation}
+    \sum{F}=dxdydz\left[\frac{\partial}{\partial{t}}(\rho V)+\frac{\partial}{\partial{x}}(\rho uV)+\frac{\partial}{\partial{y}}(\rho vV)+\frac{\partial}{\partial{z}}(\rho wV)\right]
+\end{equation}
+By splitting the terms within the brackets into 2 parts we get:
+\begin{equation}
+\begin{aligned}
+    & \implies \frac{\partial}{\partial{t}}(\rho V)+\frac{\partial}{\partial{x}}(\rho uV)+\frac{\partial}{\partial{y}}(\rho vV)+\frac{\partial}{\partial{z}}(\rho wV) \\ & \implies V \left[\cancelto{0}{\frac{\partial{\rho}}{\partial{t}}+\nabla \cdot (\rho V)}\right]+ \rho \left (\frac{\partial{V}}{\partial{t}}+u\frac{\partial{V}}{\partial{x}}+v\frac{\partial{V}}{\partial{y}}+w\frac{\partial{V}}{\partial{z}}\right)
+\end{aligned}
+\end{equation}
+The continuity equation becomes $Zero$
+Where the Total derivative is written as:
+\begin{equation}
+    \frac{\partial{V}}{\partial{t}}+u\frac{\partial{V}}{\partial{x}}+v\frac{\partial{V}}{\partial{y}}+w\frac{\partial{V}}{\partial{z}}=\frac{dV}{dt}
+\end{equation}
+The sum of all forces can be written as:
+\begin{equation}
+    \sum F = \rho \frac{dV}{dt} dxdydz
+\end{equation}
+%\newpage
+Which is $Total\ Force\ acting = Body\ forces + Surface\ Forces$
+\begin{equation}
+\begin{aligned}
+    Body\ Force\ (Gravity) & \implies dF_{grav}=\rho g dxdydz \\
+    Surface\ Force & \implies Hydrostatic\ Pressure + Viscous\ Stresses
+\end{aligned}
+\end{equation}
+$$\sigma_{ij}=
+\begin{bmatrix}
+ -p+\tau_{xx} & \tau_{xy} & \tau_{xz}\\
+ \tau_{xy} & -p+\tau_{yy} & \tau_{xy}\\
+ \tau{xx} & \tau{xy} & -p+\tau_{xz}
+\end{bmatrix}$$
+Gradient of these stresses causes net force
+$$dF_{x.surf}=\left[\frac{\partial}{\partial{x}}(\sigma_{xx})+\frac{\partial}{\partial{x}}(\sigma_{xy})+\frac{\partial}{\partial{x}}(\sigma_{xz})\right]dxdydz $$
+\begin{align}
+    \frac{dF_x}{d\mathcal{V}} &= -\frac{\partial{p}}{\partial{x}}+\frac{\partial}{\partial{x}}(\tau_{xx})+\frac{\partial}{\partial{y}}(\tau_{xy})+\frac{\partial}{\partial{z}}(\tau_{xz})\\
+    \frac{dF_y}{d\mathcal{V}} &= -\frac{\partial{p}}{\partial{y}}+\frac{\partial}{\partial{x}}(\tau_{xy})+\frac{\partial}{\partial{y}}(\tau_{yy})+\frac{\partial}{\partial{z}}(\tau_{yz})\\
+    \frac{dF_z}{d\mathcal{V}} &= -\frac{\partial{p}}{\partial{z}}+\frac{\partial}{\partial{x}}(\tau_{xz})+\frac{\partial}{\partial{y}}(\tau_{yz})+\frac{\partial}{\partial{z}}(\tau_{zz}) 
+\end{align}
+Or simply written as:
+\begin{equation}
+\left(\frac{dF}{d\mathcal{V}}\right)_{surf} =-p\nabla+\left(\frac{dF}{d\mathcal{V}}\right)_{viscous}
+\end{equation}
+Where
+$$\left(\frac{dF}{d\mathcal{V}}\right)_{viscous}=i\left(\frac{\partial{\tau_{xx}}}{\partial{x}}+\frac{\partial{\tau_{xy}}}{\partial{y}}+\frac{\partial{\tau_{xz}}}{\partial{z}} \right)+j\left(\frac{\partial{\tau_{xy}}}{\partial{x}}+\frac{\partial{\tau_{yy}}}{\partial{y}}+\frac{\partial{\tau_{yz}}}{\partial{z}} \right)+k\left(\frac{\partial{\tau_{xz}}}{\partial{x}}+\frac{\partial{\tau_{yz}}}{\partial{y}}+\frac{\partial{\tau_{zz}}}{\partial{z}} \right)$$
+Or
+$$\left(\frac{dF}{d\mathcal{V}}\right)_{viscous}=\nabla\cdot \tau_{ij}$$
+Where
+$$\tau_{ij}=\begin{bmatrix}
+    \tau_{xx} & \tau_{xy} & \tau_{xz}\\
+    \tau_{yx} & \tau_{yy} & \tau_{yz}\\
+    \tau_{xz} & \tau_{yz} & \tau_{zz}\\
+\end{bmatrix}$$
+By substituting $7$ and $11$ in $6$ we get:
+\begin{equation}
+\rho g-\nabla p + \nabla \cdot \tau_{ij}=\rho \frac{dV}{dt} 
+\end{equation}
+\begin{equation}
+\begin{aligned}
+    \rho_{gx}-\frac{\partial{p}}{\partial{x}}
+    +\frac{\partial{\tau_{xx}}}{\partial{x}}
+    +\frac{\partial{\tau_{xy}}}{\partial{y}}
+    +\frac{\partial{\tau_{xz}}}{\partial{z}} &=
+    \rho\left(\frac{\partial{u}}{\partial{t}}+
+    u\frac{\partial{u}}{\partial{x}}+
+    v\frac{\partial{u}}{\partial{y}}+
+    w\frac{\partial{u}}{\partial{z}}
+    \right)\\
+    \rho_{gy}-\frac{\partial{p}}{\partial{y}}
+    +\frac{\partial{\tau_{xy}}}{\partial{x}}
+    +\frac{\partial{\tau_{yy}}}{\partial{y}}
+    +\frac{\partial{\tau_{yz}}}{\partial{z}} &=
+    \rho\left(\frac{\partial{v}}{\partial{t}}+
+    u\frac{\partial{v}}{\partial{x}}+
+    v\frac{\partial{v}}{\partial{y}}+
+    w\frac{\partial{v}}{\partial{z}}
+    \right)\\
+    \rho_{gz}-\frac{\partial{p}}{\partial{z}}
+    +\frac{\partial{\tau_{xz}}}{\partial{x}}
+    +\frac{\partial{\tau_{yz}}}{\partial{y}}
+    +\frac{\partial{\tau_{zz}}}{\partial{z}} &=
+    \rho\left(\frac{\partial{w}}{\partial{t}}+
+    u\frac{\partial{w}}{\partial{x}}+
+    v\frac{\partial{w}}{\partial{y}}+
+    w\frac{\partial{w}}{\partial{z}}
+    \right)
+\end{aligned}
+\end{equation}
+By \textbf{Newton's law of Viscosity}
+
+\begin{align*}
+    {\tau_{xx}=2\mu \frac{\partial{u}}{\partial{x}}}  &  & {\tau_{yy}=2\mu \frac{\partial{v}}{\partial{y}}} & & {\tau_{zz}=2\mu \frac{\partial{w}}{\partial{z}}} &
+\end{align*}
+(or)
+\begin{align*}
+    \tau_{xy}=\tau_{yx}=\mu \left(\frac{\partial{u}}{\partial{y}}+\frac{\partial{v}}{\partial{x}}\right)  &  & \tau_{xz}=\tau_{zx}=\mu \left(\frac{\partial{w}}{\partial{x}}+\frac{\partial{u}}{\partial{z}}\right)  &  & \tau_{yz}=\tau_{zy}=\mu \left(\frac{\partial{v}}{\partial{z}}+\frac{\partial{w}}{\partial{y}}\right)  
+\end{align*}
+On substituting the above equations in $13$ we get:
+\begin{equation}
+\begin{aligned}
+\rho_{gx}&=-\frac{\partial{p}}{\partial{x}}+\mu \left(\frac{\partial^2{u}}{\partial{x^2}}+\frac{\partial^2{u}}{\partial{y^2}}+\frac{\partial^2{u}}{\partial{w^2}}\right)&=\rho\frac{du}{dt}\\
+\rho_{gy}&=-\frac{\partial{p}}{\partial{y}}+\mu \left(\frac{\partial^2{v}}{\partial{x^2}}+\frac{\partial^2{v}}{\partial{y^2}}+\frac{\partial^2{v}}{\partial{w^2}}\right)&=\rho\frac{dv}{dt}\\
+\rho_{gz}&=-\frac{\partial{p}}{\partial{z}}+\mu \left(\frac{\partial^2{w}}{\partial{x^2}}+\frac{\partial^2{w}}{\partial{y^2}}+\frac{\partial^2{w}}{\partial{w^2}}\right)&=\rho\frac{dw}{dt}\\
+\end{aligned}
+\end{equation}
+We have arrived at the famous \textbf{Navier-Stokes Equation}
+\section*{Navier-Stokes Equation}
+\begin{center}
+\begin{tcolorbox}
+\LARGE$$\rho \frac{\overrightarrow{DV}}{Dt}=-\nabla p+\overrightarrow{\rho_{g}}+\mu \nabla^2\overrightarrow{V}$$
+\end{tcolorbox}
+\end{center}
+Where
+\begin{equation*}
+    \begin{aligned}
+        \rho \frac{\overrightarrow{DV}}{Dt}&\implies \mathrm{Total\ Derivative}\\
+        -\nabla p&\implies \mathrm{Pressure\ gradient}\\
+        \overrightarrow{\rho_{g}} &\implies \mathrm{Body\ force\ term} \\
+        \mu \nabla^2\overrightarrow{V}&\implies \mathrm{Diffusion\ term}
+    \end{aligned}
+\end{equation*}
+
+\end{document}

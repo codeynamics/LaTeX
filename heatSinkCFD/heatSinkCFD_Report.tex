@@ -1,4 +1,4 @@
-\documentclass[twoside]{article}
+\documentclass{article}
 \usepackage{graphicx, amsmath, setspace, geometry, cancel, tcolorbox, siunitx, textcomp} % Required for inserting images
 \newcommand\blfootnote[1]{%
   \begingroup
@@ -9,14 +9,14 @@
 \usepackage[font=small,labelfont=bf]{caption} 
 \geometry{
 a4paper,
-top=0.5in,
+top=0.75in,
 bottom=0.75in,
-outer=0.5in,
-inner=1.25in
+right=0.5in,
+left=1.25in
 }
 
 \title{Steady State Thermal Analysis of a Heat Sink}
-\author{Harish Jayaraj P}
+\author{}
 \date{}
 
 \begin{document}
@@ -28,25 +28,31 @@ inner=1.25in
 \newpage
 \pagenumbering{arabic}
 \section{Problem Statement}
-Heat sinks find its application in so many places from tiny electronic circuits to huge power plants. A heat sink block is to be designed for a low temperature furnace wall with given boundary conditions. Choose materials appropriately and analyse the steady state heat conduction and convection through the heat sink and provide supporting results with colour maps and contour plots. 
+Heat sinks are components used to conduct heat from a source and transfer it to the atmosphere thus increasing the heat transfer between the source and ambient air. The heat sinks find its application in so many places from tiny electronic circuits to huge power plants.\\ A heat sink block is to be designed for a high temperature electronics circuit with given boundary conditions. Choose materials appropriately and analyse the steady state heat conduction and convection through the heat sink for free convection and provide supporting results for conduction with colormap and contour plots. 
 \section{Abstract}
-A heat sink 3D geometry was designed in ANSYS Design-modeler, Meshed in ANSYS Meshing module, boundary conditions were given and solved using ANSYS Fluent using the energy equation for Steady-state head conduction and convection. The solution was then post-processed and was contour plotted with color maps (jet) and temperature vs. position graphs were plotted at various walls of the geometry. 
+A heat sink was modelled in 3D geometry in ANSYS Design-modeler, Meshed in ANSYS Meshing module, boundary conditions were defined and solved using ANSYS Fluent module using the energy equation for Steady-state heat conduction and convection. The solution of conduction alone was then post-processed and was contour plotted with colormap (jet) and temperature vs. position graphs were plotted at various walls of the geometry. 
 
 \section{Introduction}
 This project aims to design, and analyse the heat transfer produced by a heat sink. Heat sinks are used to absorb and dissipate the high temperatures created by many different sorts of electronic and mechanical devices. Its main applications are in industrial facilities, power plants, solar thermal water systems, HVAC systems, gas water heaters, forced air heating and cooling systems, geothermal heating and cooling, and electronic systems. 
 
 Heat sinks are made of aluminum or copper, which both have excellent thermal conductivity and low thermal resistance. A heat sink is designed to maximize its surface area in contact with the cooling medium surrounding it, such as the air. Air velocity, choice of material, protrusion design and surface treatment are factors that affect the performance of a heat sink. 
 
+ANSYS is used as designing, meshing and solving tool for this project. 
+
 \section{3D-Model (Computer Aided Design - CAD)}
-The 3D-Geometry is a combination of 2 bodies with a common interface. The body in contact with the source temperature is $body\ 1$ and the body in contact with the ambience is $body\ 2$. 
+For every simulation, a geometry is essential. In this simulation, a 3D model was created inside the ANSYS Design modeler module. 
+Initially a 2D sketch for the square cross-section was drawn with proper dimensions and extruded for a defined thickness. Upon which another body with same cross-section was drawn and extruded for a defined thickness. On the new surface, 40 fins were drawn, extruded for defined height and merged with the $2^{nd}$ body.
+
+The essential dimensions and parameters for creation of the model is defined below. Alternatively the geometry can also be imported from other CAD software such as SolidWorks, CATIA-V5 in $.iges$ format or could be designed in ANSYS Spaceclaim module\\
+The designed 3D-Geometry is a combination of 2 bodies with a common interface in contact. The body in contact with the source temperature is $body\ 1$ and the body in contact with the ambience is $body\ 2$. 
 
 $Body\ 1$ is a cuboid with its height and length measuring \SI{0.02}{\meter}. This surface comes in contact with the heat source and is named as $Source$. The thickness of this body is \SI{0.002}{meter} and the surface areas are named as $Wall\ 1$. The opposite face to the $Source$ is named as $Interface\ 1$
 
 $Body\ 2$ is a cuboid with its height and length measuring \SI{0.02}{\meter}. This surface comes in contact with $Interface\ 1$ and is named as $Interface\ 2$. The thickness of this plane is \SI{0.002}{m}. The fins are extruded upon this surface with a dimension of \SI{0.003875}{\meter} in length and \SI{0.0011}{\meter} in width. The height of the fins are \SI{0.01}{\meter}. The fins are designed in a $4 \times 10$ arrangement. The surface area of fins are named as $Wall\ 2$. 
 
 \subsection{Dimensions} 
-In the axis format $x \times y \times z$ and all dimensions are in $meters\ (m)$ \\
-The dimensions are taken arbitrarily for a furnace wall application. This heat sink is a single block. Multiple such blocks need to be installed to make a full heat sink in a furnace wall. 
+In the axis format $ \implies x \times y \times z$ and all dimensions are in $meters\ (m)$ \\
+The dimensions were taken arbitrarily for a furnace wall application. This heat sink is a single block. Multiple such blocks need to be installed to make a full heat sink in a furnace wall. 
 \begin{align*}
     \mathrm{Body\ 1} & \implies 0.02 \times 0.02 \times 0.002 & meters (m) \\
     \mathrm{Body\ 2\ (Surface)} & \implies 0.02 \times 0.02 \times 0.002 & meters (m) \\
@@ -56,28 +62,32 @@ The dimensions are taken arbitrarily for a furnace wall application. This heat s
 \end{align*}
 
 \subsection{CAD models}
-\vspace{1.5cm}
+%\vspace{0.5cm}
 \begin{center}
     \includegraphics[width=\textwidth]{Geom.png}
     \captionof{figure}{Isometric View (Front)}
-    \vspace{5cm}
+    %\vspace{3cm}
     \includegraphics[width=\textwidth]{Geombackiso.png}
     \captionof{figure}{Isometric View (Back)}
-    \newpage
+    %\newpage
     \includegraphics[width=\textwidth]{Geomleft.png}
     \captionof{figure}{Left View}
-    \vspace{5cm}
+    \vspace{2cm}
     \includegraphics[width=\textwidth]{Geomtop.png}
     \captionof{figure}{Top View}
     \vspace{2cm}
     \scriptsize{The 3D-Geometry was sketched and designed in ANSYS design-modeler environment}
 \end{center}
+In the above models, the transparent body is $Body\ 1$ and the other is $Body\ 2$. There are 40 fins in total on $Body\ 2$. 
+
+It is important to choose the method of solution to discretize the geometry appropriately to get accurate results. The essential details are discussed below.
 
 \section{Method of Solution}
     Fourier's law of heat conduction: For heat transfer by conduction $q_k$, thermal conductivity $k$, cross-sectional area $A$, temperature $T$ and distance $x$.
     $$q_k = -kA\frac{dT}{dx}$$
-    Newton's law of cooling: For total heat transfer $\dot{Q}$, mass flow rate $\dot{m}$, specific heat $C_p$, temperature $T$.
+    For total heat transfer $\dot{Q}$, mass flow rate $\dot{m}$, specific heat $C_p$, temperature $T$.
     $$\dot{Q}=\dot{m}C_p\Delta T $$
+    Newton's law of cooling: $Q=hA\Delta$T\\
     \textbf{Finite Element Energy Equation (Governing Equation): }
     \begin{align*}
         \rho \frac{d\hat{u}}{dt}+p(\nabla \cdot V) &= \nabla\cdot(k\nabla T)+\phi\\
@@ -85,9 +95,12 @@ The dimensions are taken arbitrarily for a furnace wall application. This heat s
         \rho \frac{d\hat{w}}{dt}+p(\nabla \cdot V) &= \nabla\cdot(k\nabla T)+\phi
     \end{align*}
     Where $\frac{d\hat{u}}{dt},\frac{d\hat{v}}{dt}\ and\ \frac{d\hat{w}}{dt} \approx C_vdT$  in $x,y\ and\ z$ directions respectively. $\phi$ is the governing physical parameter. In case of energy equation it is $h$, heat transfer coefficient. 
+    $$\nabla = \frac{\partial{}}{\partial{x}}+\frac{\partial{}}{\partial{y}}+\frac{\partial{}}{\partial{z}}$$
     
-    The above equation was solved to get the finite element solution to the given problem. The discretization (mesh) parameters are explained in the next section. \\
+    The above PDE will be solved by the ANSYS fluent solver to get the finite element solution to the given problem at discretized notes for the defined time interval. The discretization (mesh) parameters are explained in the next section. \\
     \vspace{1.5cm}\\
+    The below procedure was followed in order to simulate the problem and get the necessary results. \\
+    \vspace{0.5cm}\\
     \textbf{Procedure for solving the problem:}
     \begin{enumerate}
         \item Define Meshing Parameters
@@ -99,7 +112,7 @@ The dimensions are taken arbitrarily for a furnace wall application. This heat s
         \item Define method of solving 
         \item Define no. of iterations and convergence order
         \item Solve the problem
-        \item Analyse the contour plots with color maps
+        \item Analyse the contour plots with colormap
         \item Plot essential graphs for analysing 
     \end{enumerate}
 \newpage
@@ -115,9 +128,11 @@ The dimensions are taken arbitrarily for a furnace wall application. This heat s
     \includegraphics[width=\textwidth]{meshzoom.png}
     \captionof{figure}{Meshed Details 2}
 \end{center}
-\vspace{2cm}
+\vspace{1cm}
+Inferred from the mesh images, the mesh is fine and discretized as needed. The below defined parameters are to be followed to get the required meshed files of the geometry. All the parameters are defined in the definition tab of mesh module. 
+\vspace{1cm}\\
 \textbf{Mesh Parameters: }
-\vspace{1.5cm}\\
+\vspace{1cm}\\
 \textbf{These\ mesh\ parameters\ were\ used\ in\ the\ discretization\ of\ the\ geometry:}
 \vspace{0.25cm}
 \begin{center}
@@ -159,9 +174,9 @@ These parameters were used in pre-processing of the CFD solution for the problem
 A single core "CPU G3250 @ 3.20GHz" Intel\textregistered\  Pentium\textregistered\ processor with 8 Gb RAM was used to sun the solution in ANSYS Fluent environment. 
 For initiation, the initial values for Turbulence Kinetic Energy, $m^2/s^2$ and Specific Dissipation Rate, $s^{-1}$ was set to 1. And the initial Temperature, $K$ was set to \SI{283}{\kelvin}.
 460 Iterations with Reporting interval of 1 was used to run calculation. 
-\vspace{0.75cm}\\
-Turn on \textbf{Energy Equation} in Models and set the below parameters.
-\vspace{1cm}
+\vspace{0.5cm}\\
+Turn on \textbf{Energy Equation} in Models and set the below parameters. 
+\vspace{0.5cm}
 \begin{center}
 \begin{tabular}{c c}
 \hline
@@ -188,7 +203,7 @@ Turn on \textbf{Energy Equation} in Models and set the below parameters.
 \end{tabular} 
 \captionof{table}{Boundary Conditions}
 \end{center}
-\vspace{2cm}
+\vspace{0.5cm}
 \begin{center}
 \begin{tabular}{c c}
 \hline
@@ -206,6 +221,12 @@ Turn on \textbf{Energy Equation} in Models and set the below parameters.
 \captionof{table}{Residual Criteria}
 \end{center}
 \vspace{1cm}
+These parameters are defined in the parameters section of the Fluent solver module. Then the initiation is done by defining initial conditions for solving the problem by $Computational\ Fluid\ Dynamics$ (CFD). For running calculations, the no. of iterations is defined as 460 and reporting interval ($Time\ Step$) - 1 was used.
+
+After defining all essential solution parameters, boundary conditions, initial values and calculation criteria, $Run\ Calculation$ was given. The solver took about \SI{18.12}{\min} (\SI{1087}{\sec}) to complete the simulation and converge to the result with accuracy order of $10^{-07}$. 
+
+Post processing was done in the ANSYS Fluent module interface to plot contour colormap for the Temperature-($K$). The images are captured in various views and explained in the next section.
+%\vspace{1cm}
 
 \section{Solution}
 \begin{center}
@@ -216,29 +237,96 @@ Turn on \textbf{Energy Equation} in Models and set the below parameters.
     \includegraphics[scale=0.40]{tempContright.jpg}
     \captionof{figure}{Solution: Right View}
 \end{center}
-This is a free convection for a short fin. As it could be observed the heat (Red) at the source (Aluminium) gets transferred steadily to the interface-1. The as the heat gets transferred to interface-2 (Copper) the heat then suddenly dissipates to the ambience and by the tip of the fin, the temperature is almost drops by \SI{3}{\kelvin} (blue). The heat from source - \SI{363}{\kelvin} drops to $\approx$ \SI{361.9}{\kelvin} while the ambient Temperature is \SI{283}{\kelvin}. \\
-Hence it could be inferred that for a longer fin and lower ambient temperature, with a forced convection, the heat transfer achieved could be more.  
+\vspace{2cm}
+This simulation is performed for a free convection case of a short fin. And the solution of steady state heat conduction alone is plotted. 
+
+As it could be observed from the results, the heat (Red - $\SI{363}{\kelvin}$) at the source (Aluminium) gets transferred steadily to the interface-1 (Orange $\approx \SI{362}{\kelvin}$). The as the heat gets transferred to interface-2 (Copper) (Orange $\approx \SI{362}{\kelvin}$) the heat then suddenly dissipates to the ambience through the tip of the fin and outermost walls of the geometry.
+
+The heat reaches the fin tip due to conduction in the body. After complete conduction the temperature almost increases by \SI{78.9}{\kelvin} (blue). The heat from source - \SI{363}{\kelvin} gets conducted to the tip of the fin and increases its temperature from $\SI{283}{\kelvin}$ to $\approx$ \SI{361.9}{\kelvin}. The temperature at fin tip reaches almost the temperature of the source ($\SI{363}{\kelvin}$) 
+\vspace{1cm}\\
+Hence it could be inferred that the heat sink block conducts heat from the source end to tip of the fin by conduction and it could be used to dissipate heat into ambience through (free/forced) convection. 
+\vspace{1cm}\\
+The contour plots show colormaps for the temperature gradient on the walls of the body/geometry. On the other hand, Temperature vs Position ($XY$) graphs are used to show variance of temperature throughout the body at different locations. Which are also plotted for various positional inputs in the $Y$ axis and it is discussed in the next section.
+%\newpage
+%\vspace{1cm}
 \section{Graphs}
+\vspace{2cm}
 \begin{center}
     \includegraphics[width=\textwidth]{ss1.png}
     \captionof{figure}{Static Temperature, $K$ Vs. Position of Wall 1}
-    \break 
+    \vspace{2cm} 
+    \textbf{Inference from the graph: }
+\vspace{1cm}
+\end{center}
+In figure 11. Static Temperature, $K$ Vs. Position of Wall 1, it could be seen that the source temperature is constant (linear line) at $\SI{363}{\kelvin}$. But as the temperature probe moves down to the fin, the temperature varies. 
+\vspace{1cm}\\
+The temperature is high at the center and relatively low at the walls/ends. This is due to convection at the walls. The heat dissipates into the nearest boundary layer of air through convection. This change takes place gradually from next layer to source till the fin tip.\\
+\vspace{1cm}\\
+Though the variation is not much significant, even the slight variations are captured by the solver as the order of solving is up to 7 decimals. And these values can impact the efficiency in a large scale.  
+
+\begin{center}
     \includegraphics[width=\textwidth]{ss2.png}
     \captionof{figure}{Static Temperature, $K$ Vs. Position of Wall 2}
     \vspace{2cm}
+    \textbf{Inference from the graph: }
+    \vspace{1cm}
+\end{center}
+In figure 12. Static Temperature, $K$ Vs. Position of Wall 2, a similar behaviour like figure 11. is observed. But here, as the inlet temperature in itself is a gradient through the walls and body, the end is further altered towards the start of the fins. The middle part of the wall has higher temperature than the walls just like in case 1. 
+\vspace{1cm}\\
+As the body extrudes as fins, the temperature passed on is again altered as a gradient input for the body that extrudes beyond this range. Then each fin forms its own gradient of temperature. Here, the gradient is again similar the previous case. The walls of the fin have less temperature than the middle part of it. But the fins as a whole follows the initial gradient behaviour for the temperature. 
+\vspace{1cm}\\
+Here at the tip of the fin, the variation of temperature is much smaller even compared to the isolated temperature plot of wall 1 temperature. And its walls have lower temperature than its center part of the body indicating heat flux and convection at the fins in the middle of the cross section too. 
+
+\begin{center}
     \includegraphics[width=\textwidth]{ss3.png}
     \captionof{figure}{Static Temperature, $K$ Vs. Position of Wall 1 $+$ Wall 2}
+    \vspace{2cm}
+    \textbf{Inference from the graph: }
+    \vspace{1cm}
+\end{center}
+Figure 13. Static Temperature, $K$ Vs. Position of Wall 1 $+$ Wall 2, shows how the linear source temperature propagates to the fin tip with gradient nature. Where the walls have lower temperature than the body. 
+\vspace{1cm}\\
+In this graph the black part of the plot shows the temperature at different position of geometry in $Body\ 1$ which is elaborated at $figure. 11$ and the red part of the plot shows  the temperature at different position of geometry in $Body\ 2$ which is elaborated at $figure. 12$.\\ In the combination of both, it could be observed that the temperature gets transferred without any noticeable loss due to change in materials in the body. 
+\vspace{1cm}\\
+Still, the interface is a near 2D geometry which may or may not have very minor loss in temperature. Hence to find that out, graphs are again plotted and analysed. Which is elaborated below. 
+\begin{center}
     \includegraphics[width=\textwidth]{ss4.png}
     \captionof{figure}{Static Temperature, $K$ Vs. Position of Interface Regions}
-    \vspace{2cm}
+    \vspace{1.5cm}
+    \textbf{Inference from the graph: }
+    \vspace{1cm}
+\end{center}
+Figure 14. Static Temperature, $K$ Vs. Position of Interface Regions shows how the heat is transferred from interfaces of $Body\ 1 \rightarrow\ Body\ 2\ i.e$ (Aluminum to copper) without any noticeable heat loss. Infact there is a possibility that at the interface region taken at very close layers of heat transfer, there is no heat loss at the order of $10^{-3} \rightarrow 10^{-6}$.
+\vspace{1cm}\\
+In this graph the black part of the plot shows the temperature at different position of interface of geometry in $Body\ 1$ which is elaborated at $figure. 11$ and the red part of the plot shows  the temperature at different position of interface of geometry in $Body\ 2$ which is elaborated at $figure. 12$.
+\vspace{1cm}\\
+In the combination of both, it could be observed that the temperature gets transferred without any noticeable loss due to change in materials in the body or any other parameters or conditions. But just as the above cases the temperature is low at the walls and high at the body between the walls. At the interface the gradient is much higher than other plots. Since interface is a near 2D geometry, the high gradient is still completely negligible at the macro scale of simulation. 
+\begin{center}
     \includegraphics[width=\textwidth]{ss5.png}
     \captionof{figure}{Static Temperature, $K$ Vs. Position of Source}
-\end{center}
+    \vspace{2cm}
+    \textbf{Inference from the graph: }
+    \vspace{1cm}
+\end{center} 
+The geometry of the source is simply a 2D geometry. It is a single face of the $Body\ 1$ where the heat is supplied to the heat sink. But in the graph a gradient could be observed. Which depicts the gradient of temperature over infinitesimal thickness of the the 2D geometry. 
+\vspace{1cm}\\
+Just as the other cases, the temperature is significantly higher at the walls and lower at the body between the walls. The temperature forms a smooth curve creating a temperature gradient. This graph is completely negligible as the source is a constant temperature of $\SI{363}{\kelvin}$. 
+\vspace{2cm}\\
+
+Thus all the solution to the results are obtained in form of contour plots with colormaps, graph for Static Temperature, $K$ and various position of walls. The details of the solutions and graphs are elaborated and the results are as expected and satisfactory.
+\vspace{1cm}\\
+The applications of such heat sink blocks are elaborated in the next section. 
+
 \newpage
 \section{Application}
 
-Heat sinks are used everywhere where heat is to be absorbed and dissipated. Its main applications are in industrial facilities, power plants, solar thermal water systems, HVAC systems, gas water heaters, forced air heating and cooling systems, geothermal heating and cooling, and electronic systems. This designed heat sink block can be used in small furnaces for heat transfer and cooling. Multiple such blocks arranged in a wall with forced convection could be used.
+Heat sinks are used everywhere where heat is to be absorbed and dissipated. Its main applications are in industrial facilities, power plants, solar thermal water systems, HVAC systems, gas water heaters, forced air heating and cooling systems, geothermal heating and cooling, and electronic systems. This designed heat sink block can be used in medium sized electronic circuits for heat transfer and cooling of the electronic components. A single block or multiple such blocks arranged in a wall with a forced convection heat transfer could be utilized to get maximum efficiency and achieve best cooling effects.
 \section{Conclusion}
-Thus, the analysis of a heat sink block for a low temperature furnace wall with free convection was done in ANSYS Fluent and the essential contour plots and Temperature Vs. Position graphs were plotted. Based on the results obtained, it is inferred that, lower the ambient temperature, higher the heat transfer due to convection. Using this heat sink with a forced convection and lower ambient temperature would produce much higher heat transfer due to convection. On the other hand, Aluminum and Copper were used for heat transfer due to conduction. Since they are the only good conductors while being cost effective too, no further improvements can be more on the conduction heat transfer. 
-This report was compiled in \LaTeX and the codes are available at github.com/codeynamics/LaTeX/heatSinkCFD
+Thus, the analysis of a heat sink block for a medium sized electronic circuits with free convection was designed, meshed, solved and post processed in various modules of ANSYS and Fluent (Energy) was used to solve the problem. The essential contour plots with jet colormaps and Temperature Vs. Position graphs were plotted for the obtained solution.
+
+Based on the results and plots obtained, it is inferred that, heat from source gets well conducted to the fins by conduction and thus could be transferred to ambient air by convection. Using this heat sink with a forced convection and lower ambient temperature would produce much higher heat transfer due to convection. On the other hand, Aluminum and Copper were used for heat transfer due to conduction. Since they are the only good conductors available while being cost effective too, no further improvements can be done on the conduction part of the problem in the heat transfer between the source and the ambient air. 
+
+Thus, it could be concluded that the analysis was done through simulation and the obtained results are as expected and it is satisfactory to the proposed problem statement. 
+\vspace{2cm}\\
+This report was compiled in \LaTeX. \\ The codes written for this document is available at github.com/codeynamics/LaTeX/tree/main/heatSinkCFD
 \end{document}
